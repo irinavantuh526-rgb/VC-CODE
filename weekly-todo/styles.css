@@ -1,10 +1,13 @@
 :root {
   color-scheme: light;
-  --ink: #18202f;
-  --muted: #6b7280;
-  --paper: #ffffff;
-  --line: #e7e9f0;
-  --shadow: 0 22px 55px rgba(24, 32, 47, 0.12);
+  --ink: #21302f;
+  --muted: #69736f;
+  --paper: #fffdf8;
+  --panel: #f9f6ee;
+  --line: #d9d6ca;
+  --soft-line: #e8e3d7;
+  --green: #527f71;
+  --shadow: 0 18px 42px rgba(68, 60, 47, 0.12);
   --radius: 8px;
 }
 
@@ -19,9 +22,9 @@ body {
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background:
-    linear-gradient(135deg, rgba(255, 214, 10, 0.26), transparent 32%),
-    linear-gradient(215deg, rgba(0, 194, 255, 0.22), transparent 34%),
-    #f6f7fb;
+    radial-gradient(circle at 85% 92%, rgba(190, 229, 219, 0.8), transparent 32%),
+    radial-gradient(circle at 12% 4%, rgba(245, 231, 203, 0.9), transparent 34%),
+    #f4f0e8;
 }
 
 button,
@@ -36,58 +39,65 @@ button {
 }
 
 .app {
-  width: min(1180px, calc(100% - 32px));
+  width: min(1180px, calc(100% - 36px));
   margin: 0 auto;
-  padding: 34px 0 42px;
+  padding: 26px 0 38px;
 }
 
 .topbar {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 24px;
+  gap: 24px;
+  margin-bottom: 18px;
 }
 
 .eyebrow {
-  margin: 0 0 6px;
-  color: #ff4d6d;
-  font-size: 0.78rem;
-  font-weight: 800;
+  margin: 0 0 4px;
+  color: #425b55;
+  font-size: 0.72rem;
+  font-weight: 900;
   letter-spacing: 0;
   text-transform: uppercase;
 }
 
 h1 {
   margin: 0;
-  font-size: clamp(2.1rem, 5vw, 4.8rem);
-  line-height: 0.96;
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  line-height: 0.94;
   letter-spacing: 0;
 }
 
 .progress-card {
-  width: min(280px, 100%);
-  padding: 14px;
+  width: 300px;
+  padding: 18px 18px 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(14px);
+  background: rgba(255, 253, 248, 0.9);
   box-shadow: var(--shadow);
 }
 
-#progressText {
+#progressRatio {
   display: block;
-  margin-bottom: 10px;
-  color: var(--muted);
-  font-size: 0.92rem;
-  font-weight: 700;
+  color: #56605b;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+#progressPercent {
+  display: block;
+  margin: 4px 0 10px;
+  color: #21302f;
+  font-size: 2.25rem;
+  line-height: 1;
 }
 
 .progress-track {
-  height: 9px;
+  height: 7px;
   overflow: hidden;
+  border: 1px solid #d3cec2;
   border-radius: 999px;
-  background: #e9edf5;
+  background: #f3efe6;
 }
 
 #progressBar {
@@ -95,204 +105,287 @@ h1 {
   width: 0%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #00c2ff, #55d66b, #ffd60a);
+  background: var(--green);
   transition: width 180ms ease;
 }
 
 .composer {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 180px 138px;
-  gap: 10px;
+  grid-template-columns: minmax(260px, 1fr) 160px 150px 118px;
+  gap: 8px;
   margin-bottom: 18px;
   padding: 10px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: var(--shadow);
+  background: rgba(255, 253, 248, 0.92);
+  box-shadow: 0 12px 28px rgba(68, 60, 47, 0.08);
 }
 
 .composer input,
 .composer select,
-.quick-add input {
+.reflection-card select {
   min-width: 0;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
+  height: 42px;
+  border: 1px solid #d5d0c4;
+  border-radius: 6px;
   outline: none;
-  background: #f7f8fc;
+  background: #fffdf8;
   color: var(--ink);
 }
 
 .composer input,
 .composer select {
-  height: 46px;
   padding: 0 14px;
+  font-size: 0.95rem;
 }
 
 .composer input:focus,
 .composer select:focus,
-.quick-add input:focus {
-  border-color: #00a8ff;
-  background: #ffffff;
+.reflection-card select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(82, 127, 113, 0.14);
 }
 
 .composer button {
-  min-height: 46px;
-  border-radius: var(--radius);
-  background: #18202f;
-  color: white;
-  font-weight: 800;
+  min-height: 42px;
+  border-radius: 6px;
+  background: var(--green);
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 900;
 }
 
 .week-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(148px, 1fr));
+  grid-template-columns: repeat(4, minmax(210px, 1fr));
   gap: 12px;
 }
 
-.day-card {
-  display: grid;
-  grid-template-rows: auto minmax(140px, 1fr) auto;
-  min-height: 360px;
+.day-card,
+.reflection-card {
+  min-height: 445px;
   border: 1px solid var(--line);
-  border-top: 7px solid var(--accent);
   border-radius: var(--radius);
-  background: var(--paper);
-  box-shadow: 0 16px 42px rgba(24, 32, 47, 0.1);
-  overflow: hidden;
+  background: rgba(255, 253, 248, 0.88);
+  box-shadow: 0 14px 32px rgba(68, 60, 47, 0.1);
+}
+
+.day-card {
+  padding: 14px;
 }
 
 .day-head {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 16px 14px 10px;
-}
-
-.day-kicker {
-  margin: 0 0 3px;
-  color: var(--accent);
-  font-size: 0.74rem;
-  font-weight: 900;
-  letter-spacing: 0;
-  text-transform: uppercase;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--soft-line);
 }
 
 h2 {
   margin: 0;
-  font-size: 1.08rem;
+  font-size: 1rem;
+  line-height: 1.2;
   letter-spacing: 0;
 }
 
-.day-count {
-  flex: 0 0 auto;
-  min-width: 28px;
-  padding: 4px 7px;
+.day-count,
+.category-count,
+.reflection-head span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 22px;
+  padding: 3px 8px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--accent) 18%, white);
-  color: var(--ink);
+  background: #e4f0ea;
+  color: #496a5f;
   font-size: 0.78rem;
   font-weight: 900;
-  text-align: center;
+}
+
+.category-list {
+  display: grid;
+  gap: 12px;
+  padding-top: 14px;
+}
+
+.category-card {
+  min-height: 72px;
+  padding: 12px;
+  border: 1px solid var(--soft-line);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.category-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.category-title {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 7px;
+  color: #56605b;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.category-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--category-accent);
+}
+
+.category-count {
+  min-width: 22px;
+  min-height: 20px;
+  padding: 2px 7px;
+  color: var(--category-accent);
+  font-size: 0.72rem;
+}
+
+.empty-state {
+  margin: 0;
+  color: #6d756f;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.empty-state[hidden] {
+  display: none;
 }
 
 .task-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 8px;
   margin: 0;
-  padding: 8px 10px 12px;
+  padding: 0;
   list-style: none;
 }
 
 .task {
   display: grid;
-  grid-template-columns: 26px minmax(0, 1fr) 26px;
-  align-items: center;
+  grid-template-columns: 26px minmax(0, 1fr) 24px;
+  align-items: start;
   gap: 8px;
-  min-height: 42px;
-  padding: 7px;
-  border: 1px solid #edf0f6;
-  border-radius: var(--radius);
-  background: #fbfcff;
-}
-
-.task.done {
-  background: #f1f6f3;
+  min-height: 44px;
+  padding: 9px 8px;
+  border: 1px solid #d8d3c7;
+  border-radius: 6px;
+  background: #fffdf8;
 }
 
 .check {
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 24px;
-  border: 2px solid color-mix(in srgb, var(--accent) 70%, #ffffff);
-  border-radius: 50%;
-  background: white;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid #a9aa9f;
+  border-radius: 5px;
+  background: #fffdf8;
   color: transparent;
+  font-size: 0.82rem;
+  font-weight: 900;
 }
 
 .task.done .check {
-  background: var(--accent);
-  color: white;
+  border-color: var(--green);
+  background: var(--green);
+  color: #ffffff;
 }
 
 .task-text {
   overflow-wrap: anywhere;
-  line-height: 1.25;
+  color: #33413f;
+  font-size: 0.9rem;
+  line-height: 1.38;
+  padding-top: 1px;
 }
 
 .task.done .task-text {
-  color: var(--muted);
+  color: #7a817c;
   text-decoration: line-through;
 }
 
 .delete {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: transparent;
-  color: #a0a7b6;
-  font-size: 1.2rem;
+  color: #9a615b;
+  font-size: 1rem;
   line-height: 1;
 }
 
 .delete:hover {
-  background: #fff0f3;
-  color: #ff4d6d;
+  background: #f5e2dc;
+  color: #8f2d2d;
 }
 
-.quick-add {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 34px;
-  gap: 7px;
-  padding: 10px;
-  border-top: 1px solid var(--line);
-  background: #fafbfe;
+.reflection-card {
+  padding: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 253, 248, 0.94), rgba(220, 243, 235, 0.9)),
+    #eef7f2;
 }
 
-.quick-add input {
-  height: 34px;
-  padding: 0 10px;
-  font-size: 0.9rem;
+.reflection-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 
-.quick-add button {
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: white;
-  font-size: 1.25rem;
+.reflection-head p {
+  margin: 0;
+  color: #73817a;
+  font-size: 0.72rem;
   font-weight: 900;
-  line-height: 1;
+  text-transform: uppercase;
 }
 
-@media (max-width: 1060px) {
+.reflection-card h2 {
+  margin-bottom: 22px;
+  font-size: 1.45rem;
+  line-height: 1.05;
+}
+
+.reflection-card label {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.reflection-card label span {
+  color: #69736f;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.reflection-card select {
+  width: 100%;
+  padding: 0 12px;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1120px) {
   .week-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 780px) {
   .app {
     width: min(100% - 22px, 560px);
     padding-top: 22px;
@@ -301,6 +394,10 @@ h2 {
   .topbar {
     display: grid;
     align-items: stretch;
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 13vw, 4rem);
   }
 
   .progress-card {
@@ -315,7 +412,8 @@ h2 {
     grid-template-columns: 1fr;
   }
 
-  .day-card {
-    min-height: 310px;
+  .day-card,
+  .reflection-card {
+    min-height: auto;
   }
 }

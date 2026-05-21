@@ -3,48 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Задачи на неделю</title>
+    <title>&#1053;&#1077;&#1076;&#1077;&#1083;&#1100;&#1085;&#1099;&#1081; &#1092;&#1086;&#1082;&#1091;&#1089;</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="app" aria-label="Список задач на неделю">
+    <main class="app" aria-label="&#1055;&#1083;&#1072;&#1085;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1085;&#1077;&#1076;&#1077;&#1083;&#1080;">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Weekly focus</p>
-          <h1>Задачи на неделю</h1>
+          <p class="eyebrow">&#1055;&#1083;&#1072;&#1085;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1085;&#1077;&#1076;&#1077;&#1083;&#1080;</p>
+          <h1>&#1053;&#1077;&#1076;&#1077;&#1083;&#1100;&#1085;&#1099;&#1081; &#1092;&#1086;&#1082;&#1091;&#1089;</h1>
         </div>
         <div class="progress-card" aria-live="polite">
-          <span id="progressText">0 из 0</span>
+          <span id="progressRatio">0 &#1080;&#1079; 0 &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1086;</span>
+          <strong id="progressPercent">0%</strong>
           <div class="progress-track" aria-hidden="true">
             <span id="progressBar"></span>
           </div>
         </div>
       </header>
 
-      <section class="composer" aria-label="Добавить задачу">
-        <input id="taskInput" type="text" placeholder="Новая задача..." autocomplete="off" />
-        <select id="daySelect" aria-label="День недели"></select>
-        <button id="addTask" type="button">Добавить</button>
+      <section class="composer" aria-label="&#1044;&#1086;&#1073;&#1072;&#1074;&#1080;&#1090;&#1100; &#1079;&#1072;&#1076;&#1072;&#1095;&#1091;">
+        <input id="taskInput" type="text" placeholder="&#1053;&#1086;&#1074;&#1072;&#1103; &#1079;&#1072;&#1076;&#1072;&#1095;&#1072;" autocomplete="off" />
+        <select id="daySelect" aria-label="&#1044;&#1077;&#1085;&#1100; &#1085;&#1077;&#1076;&#1077;&#1083;&#1080;"></select>
+        <select id="categorySelect" aria-label="&#1050;&#1072;&#1090;&#1077;&#1075;&#1086;&#1088;&#1080;&#1103;"></select>
+        <button id="addTask" type="button">&#1044;&#1086;&#1073;&#1072;&#1074;&#1080;&#1090;&#1100;</button>
       </section>
 
-      <section id="weekGrid" class="week-grid" aria-label="Неделя"></section>
+      <section id="weekGrid" class="week-grid" aria-label="&#1053;&#1077;&#1076;&#1077;&#1083;&#1103;"></section>
     </main>
 
     <template id="dayTemplate">
       <article class="day-card">
         <div class="day-head">
-          <div>
-            <p class="day-kicker"></p>
-            <h2></h2>
-          </div>
+          <h2></h2>
           <span class="day-count"></span>
         </div>
-        <ul class="task-list"></ul>
-        <form class="quick-add">
-          <input type="text" placeholder="Добавить сюда..." aria-label="Быстро добавить задачу" />
-          <button type="submit" aria-label="Добавить задачу">+</button>
-        </form>
+        <div class="category-list"></div>
       </article>
+    </template>
+
+    <template id="categoryTemplate">
+      <section class="category-card">
+        <div class="category-head">
+          <span class="category-title">
+            <span class="category-dot"></span>
+            <span class="category-name"></span>
+          </span>
+          <span class="category-count"></span>
+        </div>
+        <ul class="task-list"></ul>
+        <p class="empty-state">&#1055;&#1086;&#1082;&#1072; &#1087;&#1091;&#1089;&#1090;&#1086;</p>
+      </section>
+    </template>
+
+    <template id="reflectionTemplate">
+      <aside class="reflection-card">
+        <div class="reflection-head">
+          <p>&#1056;&#1077;&#1092;&#1083;&#1077;&#1082;&#1089;&#1080;&#1103;</p>
+          <span id="averageScore"></span>
+        </div>
+        <h2>&#1048;&#1090;&#1086;&#1075;&#1080; &#1085;&#1077;&#1076;&#1077;&#1083;&#1080;</h2>
+
+        <label>
+          <span>&#1059;&#1088;&#1086;&#1074;&#1077;&#1085;&#1100; &#1087;&#1088;&#1086;&#1076;&#1091;&#1082;&#1090;&#1080;&#1074;&#1085;&#1086;&#1089;&#1090;&#1080;</span>
+          <select id="productivityScore"></select>
+        </label>
+
+        <label>
+          <span>&#1069;&#1084;&#1086;&#1094;&#1080;&#1086;&#1085;&#1072;&#1083;&#1100;&#1085;&#1072;&#1103; &#1085;&#1072;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1085;&#1086;&#1089;&#1090;&#1100;</span>
+          <select id="energyScore"></select>
+        </label>
+      </aside>
     </template>
 
     <script src="./script.js"></script>
