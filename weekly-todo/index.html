@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Задачи на неделю</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-label="Список задач на неделю">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Weekly focus</p>
+          <h1>Задачи на неделю</h1>
+        </div>
+        <div class="progress-card" aria-live="polite">
+          <span id="progressText">0 из 0</span>
+          <div class="progress-track" aria-hidden="true">
+            <span id="progressBar"></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="composer" aria-label="Добавить задачу">
+        <input id="taskInput" type="text" placeholder="Новая задача..." autocomplete="off" />
+        <select id="daySelect" aria-label="День недели"></select>
+        <button id="addTask" type="button">Добавить</button>
+      </section>
+
+      <section id="weekGrid" class="week-grid" aria-label="Неделя"></section>
+    </main>
+
+    <template id="dayTemplate">
+      <article class="day-card">
+        <div class="day-head">
+          <div>
+            <p class="day-kicker"></p>
+            <h2></h2>
+          </div>
+          <span class="day-count"></span>
+        </div>
+        <ul class="task-list"></ul>
+        <form class="quick-add">
+          <input type="text" placeholder="Добавить сюда..." aria-label="Быстро добавить задачу" />
+          <button type="submit" aria-label="Добавить задачу">+</button>
+        </form>
+      </article>
+    </template>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
