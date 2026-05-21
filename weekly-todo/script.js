@@ -1,17 +1,17 @@
 const DAYS = [
-  { id: "mon", title: "\u041f\u043e\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u0438\u043a" },
-  { id: "tue", title: "\u0412\u0442\u043e\u0440\u043d\u0438\u043a" },
-  { id: "wed", title: "\u0421\u0440\u0435\u0434\u0430" },
-  { id: "thu", title: "\u0427\u0435\u0442\u0432\u0435\u0440\u0433" },
-  { id: "fri", title: "\u041f\u044f\u0442\u043d\u0438\u0446\u0430" },
-  { id: "sat", title: "\u0421\u0443\u0431\u0431\u043e\u0442\u0430" },
-  { id: "sun", title: "\u0412\u043e\u0441\u043a\u0440\u0435\u0441\u0435\u043d\u044c\u0435" },
+  { id: "mon", title: "\u041f\u043e\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u0438\u043a", offset: 0 },
+  { id: "tue", title: "\u0412\u0442\u043e\u0440\u043d\u0438\u043a", offset: 1 },
+  { id: "wed", title: "\u0421\u0440\u0435\u0434\u0430", offset: 2 },
+  { id: "thu", title: "\u0427\u0435\u0442\u0432\u0435\u0440\u0433", offset: 3 },
+  { id: "fri", title: "\u041f\u044f\u0442\u043d\u0438\u0446\u0430", offset: 4 },
+  { id: "sat", title: "\u0421\u0443\u0431\u0431\u043e\u0442\u0430", offset: 5 },
+  { id: "sun", title: "\u0412\u043e\u0441\u043a\u0440\u0435\u0441\u0435\u043d\u044c\u0435", offset: 6 },
 ];
 
 const CATEGORIES = [
-  { id: "business", title: "\u0411\u0438\u0437\u043d\u0435\u0441-\u0437\u0430\u0434\u0430\u0447\u0438", accent: "#4f7f70" },
-  { id: "personal", title: "\u041b\u0438\u0447\u043d\u044b\u0435", accent: "#a2794a" },
-  { id: "study", title: "\u0423\u0447\u0435\u0431\u043d\u044b\u0435", accent: "#4d73a8" },
+  { id: "business", title: "\u0411\u0438\u0437\u043d\u0435\u0441-\u0437\u0430\u0434\u0430\u0447\u0438", accent: "#f05d3b" },
+  { id: "personal", title: "\u041b\u0438\u0447\u043d\u044b\u0435", accent: "#ff9f1c" },
+  { id: "study", title: "\u0423\u0447\u0435\u0431\u043d\u044b\u0435", accent: "#d9467a" },
 ];
 
 const SCORE_OPTIONS = [
@@ -24,12 +24,15 @@ const SCORE_OPTIONS = [
 
 const STORAGE_KEY = "weekly-todo.tasks.v1";
 const REFLECTION_KEY = "weekly-todo.reflection.v1";
+const WEEK_START_KEY = "weekly-todo.week-start.v1";
+const DEFAULT_WEEK_START = "2026-05-18";
 
 const weekGrid = document.querySelector("#weekGrid");
 const dayTemplate = document.querySelector("#dayTemplate");
 const categoryTemplate = document.querySelector("#categoryTemplate");
 const reflectionTemplate = document.querySelector("#reflectionTemplate");
 const taskInput = document.querySelector("#taskInput");
+const weekStartDateInput = document.querySelector("#weekStartDate");
 const daySelect = document.querySelector("#daySelect");
 const categorySelect = document.querySelector("#categorySelect");
 const addTaskButton = document.querySelector("#addTask");
@@ -56,6 +59,7 @@ const sampleTasks = [
 
 let tasks = loadTasks();
 let reflection = loadReflection();
+let weekStartDate = loadWeekStartDate();
 
 function loadTasks() {
   try {
@@ -104,12 +108,21 @@ function loadReflection() {
   }
 }
 
+function loadWeekStartDate() {
+  const saved = localStorage.getItem(WEEK_START_KEY);
+  return isValidDateValue(saved) ? saved : DEFAULT_WEEK_START;
+}
+
 function saveTasks() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
 }
 
 function saveReflection() {
   localStorage.setItem(REFLECTION_KEY, JSON.stringify(reflection));
+}
+
+function saveWeekStartDate() {
+  localStorage.setItem(WEEK_START_KEY, weekStartDate);
 }
 
 function createOptions() {
@@ -120,6 +133,9 @@ function createOptions() {
   CATEGORIES.forEach((category) => {
     categorySelect.append(createOption(category.id, category.title));
   });
+
+  weekStartDateInput.value = weekStartDate;
+  updateDayOptions();
 }
 
 function createOption(value, label) {
@@ -135,9 +151,11 @@ function renderWeek() {
   DAYS.forEach((day) => {
     const node = dayTemplate.content.firstElementChild.cloneNode(true);
     const dayTasks = tasks.filter((task) => task.day === day.id);
+    const dayDate = getDateByOffset(day.offset);
 
     node.dataset.day = day.id;
     node.querySelector("h2").textContent = day.title;
+    node.querySelector(".day-date").textContent = formatDate(dayDate);
     node.querySelector(".day-count").textContent = dayTasks.length;
 
     const categoryList = node.querySelector(".category-list");
@@ -279,6 +297,38 @@ function updateProgress() {
   progressBar.style.width = `${percent}%`;
 }
 
+function getDateByOffset(offset) {
+  const date = parseDateValue(weekStartDate);
+  date.setDate(date.getDate() + offset);
+  return date;
+}
+
+function parseDateValue(value) {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function formatDate(date) {
+  const formattedDate = new Intl.DateTimeFormat("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(date);
+
+  return `${formattedDate} \u0433.`;
+}
+
+function isValidDateValue(value) {
+  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(parseDateValue(value).getTime());
+}
+
+function updateDayOptions() {
+  [...daySelect.options].forEach((option, index) => {
+    const day = DAYS[index];
+    option.textContent = `${day.title} - ${formatDate(getDateByOffset(day.offset))}`;
+  });
+}
+
 addTaskButton.addEventListener("click", () => {
   addTask(taskInput.value, daySelect.value, categorySelect.value);
   taskInput.value = "";
@@ -289,6 +339,18 @@ taskInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     addTaskButton.click();
   }
+});
+
+weekStartDateInput.addEventListener("change", () => {
+  if (!isValidDateValue(weekStartDateInput.value)) {
+    weekStartDateInput.value = weekStartDate;
+    return;
+  }
+
+  weekStartDate = weekStartDateInput.value;
+  saveWeekStartDate();
+  updateDayOptions();
+  renderWeek();
 });
 
 createOptions();
